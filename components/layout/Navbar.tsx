@@ -16,15 +16,33 @@ export default async function Navbar() {
             <>
               <Link href="/startup/create">Create</Link>
 
-              <button onClick={signOut}>
-                <span>Sign out</span>
-              </button>
+              <form
+                action={async () => {
+                  "use server";
+
+                  await signOut();
+                }}
+              >
+                <button type="submit">Sign out</button>
+              </form>
+
+              <Link href={`/user/${session?.id}`}>
+                <span>{session?.user?.name}</span>
+              </Link>
             </>
           ) : (
             <>
-              <Link href="/signin">Sign in</Link>
+              <form
+                action={async () => {
+                  "use server";
 
-              <Link href="/signup">Sign up</Link>
+                  await signIn("github");
+                }}
+              >
+                <button type="submit">
+                  <span>Sign in</span>
+                </button>
+              </form>
             </>
           )}
         </div>
